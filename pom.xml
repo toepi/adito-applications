@@ -9,9 +9,18 @@
     </parent>
 
     <artifactId>adito-applications</artifactId>
-    <version>1.0.11</version>
+    <version>1.0.11-SNAPSHOT</version>
 
     <packaging>adito-extension</packaging>
 
     <name>adito : extension : applications</name>
+    
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>com.adito.maven</groupId>
+                <artifactId>adito-extention-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+    </build>
 </project>

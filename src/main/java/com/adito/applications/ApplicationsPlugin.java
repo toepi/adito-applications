@@ -1,5 +1,4 @@
-
-				/*
+/*
  *  Adito
  *
  *  Copyright (C) 2003-2006 3SP LTD. All Rights Reserved
@@ -17,7 +16,6 @@
  *  License along with this program; if not, write to the Free Software
  *  Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
-			
 package com.adito.applications;
 
 import java.util.Iterator;
@@ -77,36 +75,36 @@ import com.adito.table.TableItemActionMenuTree;
  */
 public class ApplicationsPlugin extends DefaultPlugin implements CoreListener {
 
-	/**
-	 * Application shortcut resource type ID
-	 */
-	public final static int APPLICATION_SHORTCUT_RESOURCE_TYPE_ID = 3;
+    /**
+     * Application shortcut resource type ID
+     */
+    public final static int APPLICATION_SHORTCUT_RESOURCE_TYPE_ID = 3;
 
-	/**
-	 * Application shortcut resource type
-	 */
-	public static final ResourceType APPLICATION_SHORTCUT_RESOURCE_TYPE = new ApplicationShortcutResourceType();
+    /**
+     * Application shortcut resource type
+     */
+    public static final ResourceType APPLICATION_SHORTCUT_RESOURCE_TYPE = new ApplicationShortcutResourceType();
 
-	/**
-	 * Extension bundle ID
-	 */
-	public static final String BUNDLE_ID = "adito-community-applications";
+    /**
+     * Extension bundle ID
+     */
+    public static final String BUNDLE_ID = "adito-applications";
 
-	final static Log log = LogFactory.getLog(ApplicationsPlugin.class);
+    final static Log log = LogFactory.getLog(ApplicationsPlugin.class);
 
-	/**
-	 * Message resources key (resource bundle id)
-	 */
-	public static final String MESSAGE_RESOURCES_KEY = "applications";
+    /**
+     * Message resources key (resource bundle id)
+     */
+    public static final String MESSAGE_RESOURCES_KEY = "applications";
 
-	/**
-	 * Constructor.
-	 */
-	public ApplicationsPlugin() {
-		super("/WEB-INF/adito-community-applications-tiles-defs.xml", true);
-	}
+    /**
+     * Constructor.
+     */
+    public ApplicationsPlugin() {
+        super("/WEB-INF/adito-applications-tiles-defs.xml", true);
+    }
 
-	/* (non-Javadoc)
+    /* (non-Javadoc)
      * @see com.adito.extensions.types.DefaultPlugin#startPlugin(com.adito.extensions.types.PluginDefinition, com.adito.extensions.ExtensionDescriptor, org.jdom.Element)
      */
     public void startPlugin(PluginDefinition definition, ExtensionDescriptor descriptor, Element element) throws ExtensionException {
@@ -119,170 +117,170 @@ public class ApplicationsPlugin extends DefaultPlugin implements CoreListener {
     }
 
     /*
-	 * (non-Javadoc)
-	 * 
-	 * @see com.adito.plugin.DefaultPlugin#startPlugin()
-	 */
-	public void activatePlugin() throws ExtensionException {
-		super.activatePlugin();
-		try {
-			initDatabase();
-			initAgentService();
-			initPolicyFramework();
-			initTableItemActions();
-			initMainMenu();
-			initPageTasks();
+     * (non-Javadoc)
+     * 
+     * @see com.adito.plugin.DefaultPlugin#startPlugin()
+     */
+    public void activatePlugin() throws ExtensionException {
+        super.activatePlugin();
+        try {
+            initDatabase();
+            initAgentService();
+            initPolicyFramework();
+            initTableItemActions();
+            initMainMenu();
+            initPageTasks();
             CoreUtil.updateEventsTable(ApplicationsPlugin.MESSAGE_RESOURCES_KEY, ApplicationShortcutEventConstants.class);
-			CoreServlet.getServlet().addCoreListener(this);
-		} catch (Exception e) {
+            CoreServlet.getServlet().addCoreListener(this);
+        } catch (Exception e) {
             e.printStackTrace();
-			throw new ExtensionException(ExtensionException.INTERNAL_ERROR, e);
-		}
-	}
+            throw new ExtensionException(ExtensionException.INTERNAL_ERROR, e);
+        }
+    }
 
-	void initDatabase() throws Exception {
-		ApplicationShortcutDatabaseFactory.getInstance().open(CoreServlet.getServlet(), this.getPluginDefinition());
-	}
+    void initDatabase() throws Exception {
+        ApplicationShortcutDatabaseFactory.getInstance().open(CoreServlet.getServlet(), this.getPluginDefinition());
+    }
 
-	void initAgentService() throws Exception {
-		DefaultAgentManager.getInstance().registerService(ApplicationService.class);
-	}
+    void initAgentService() throws Exception {
+        DefaultAgentManager.getInstance().registerService(ApplicationService.class);
+    }
 
-	void initExtensionTypes() throws Exception {
-		ExtensionTypeManager.getInstance().registerExtensionType("server", ServerType.class);
-		ExtensionTypeManager.getInstance().registerExtensionType("javas", JavasType.class);
-		ExtensionTypeManager.getInstance().registerExtensionType("java", JavaType.class);
-		ExtensionTypeManager.getInstance().registerExtensionType("executable", ExecutableType.class);
-		ExtensionTypeManager.getInstance().registerExtensionType("html", HtmlType.class);
-	}
+    void initExtensionTypes() throws Exception {
+        ExtensionTypeManager.getInstance().registerExtensionType("server", ServerType.class);
+        ExtensionTypeManager.getInstance().registerExtensionType("javas", JavasType.class);
+        ExtensionTypeManager.getInstance().registerExtensionType("java", JavaType.class);
+        ExtensionTypeManager.getInstance().registerExtensionType("executable", ExecutableType.class);
+        ExtensionTypeManager.getInstance().registerExtensionType("html", HtmlType.class);
+    }
 
-	void initPolicyFramework() throws Exception {
+    void initPolicyFramework() throws Exception {
 
-		PolicyDatabase pdb = PolicyDatabaseFactory.getInstance();
+        PolicyDatabase pdb = PolicyDatabaseFactory.getInstance();
 
-		// Application Shortcut
-		pdb.registerResourceType(APPLICATION_SHORTCUT_RESOURCE_TYPE);
-		APPLICATION_SHORTCUT_RESOURCE_TYPE.addPermission(PolicyConstants.PERM_CREATE_EDIT_AND_ASSIGN);
-		APPLICATION_SHORTCUT_RESOURCE_TYPE.addPermission(PolicyConstants.PERM_EDIT_AND_ASSIGN);
-		APPLICATION_SHORTCUT_RESOURCE_TYPE.addPermission(PolicyConstants.PERM_ASSIGN);
-		APPLICATION_SHORTCUT_RESOURCE_TYPE.addPermission(PolicyConstants.PERM_DELETE);
-		APPLICATION_SHORTCUT_RESOURCE_TYPE.addPermission(PolicyConstants.PERM_PERSONAL_CREATE_EDIT_AND_DELETE);
-	}
+        // Application Shortcut
+        pdb.registerResourceType(APPLICATION_SHORTCUT_RESOURCE_TYPE);
+        APPLICATION_SHORTCUT_RESOURCE_TYPE.addPermission(PolicyConstants.PERM_CREATE_EDIT_AND_ASSIGN);
+        APPLICATION_SHORTCUT_RESOURCE_TYPE.addPermission(PolicyConstants.PERM_EDIT_AND_ASSIGN);
+        APPLICATION_SHORTCUT_RESOURCE_TYPE.addPermission(PolicyConstants.PERM_ASSIGN);
+        APPLICATION_SHORTCUT_RESOURCE_TYPE.addPermission(PolicyConstants.PERM_DELETE);
+        APPLICATION_SHORTCUT_RESOURCE_TYPE.addPermission(PolicyConstants.PERM_PERSONAL_CREATE_EDIT_AND_DELETE);
+    }
 
-	void initTableItemActions() throws Exception {
-		MenuTree tree = NavigationManager.getMenuTree(TableItemActionMenuTree.MENU_TABLE_ITEM_ACTION_MENU_TREE);
+    void initTableItemActions() throws Exception {
+        MenuTree tree = NavigationManager.getMenuTree(TableItemActionMenuTree.MENU_TABLE_ITEM_ACTION_MENU_TREE);
 
-		// Application shortcuts
-		tree.addMenuItem(null, new MenuItem("applicationShortcuts",
-						ApplicationsPlugin.MESSAGE_RESOURCES_KEY,
-						null,
-						100,
-						false,
-						SessionInfo.ALL_CONTEXTS));
-		tree.addMenuItem("applicationShortcuts", new AddToFavoritesAction(ApplicationsPlugin.MESSAGE_RESOURCES_KEY));
-		tree.addMenuItem("applicationShortcuts", new RemoveFromFavoritesAction(ApplicationsPlugin.MESSAGE_RESOURCES_KEY));
-		tree.addMenuItem("applicationShortcuts", new RemoveResourceAction(SessionInfo.ALL_CONTEXTS,
-						ApplicationsPlugin.MESSAGE_RESOURCES_KEY));
-		tree.addMenuItem("applicationShortcuts", new EditResourceAction(SessionInfo.ALL_CONTEXTS,
-						ApplicationsPlugin.MESSAGE_RESOURCES_KEY));
-		tree.addMenuItem("applicationShortcuts", new CloneResourceAction(SessionInfo.MANAGEMENT_CONSOLE_CONTEXT,
-			ApplicationsPlugin.MESSAGE_RESOURCES_KEY));
-	}
+        // Application shortcuts
+        tree.addMenuItem(null, new MenuItem("applicationShortcuts",
+                ApplicationsPlugin.MESSAGE_RESOURCES_KEY,
+                null,
+                100,
+                false,
+                SessionInfo.ALL_CONTEXTS));
+        tree.addMenuItem("applicationShortcuts", new AddToFavoritesAction(ApplicationsPlugin.MESSAGE_RESOURCES_KEY));
+        tree.addMenuItem("applicationShortcuts", new RemoveFromFavoritesAction(ApplicationsPlugin.MESSAGE_RESOURCES_KEY));
+        tree.addMenuItem("applicationShortcuts", new RemoveResourceAction(SessionInfo.ALL_CONTEXTS,
+                ApplicationsPlugin.MESSAGE_RESOURCES_KEY));
+        tree.addMenuItem("applicationShortcuts", new EditResourceAction(SessionInfo.ALL_CONTEXTS,
+                ApplicationsPlugin.MESSAGE_RESOURCES_KEY));
+        tree.addMenuItem("applicationShortcuts", new CloneResourceAction(SessionInfo.MANAGEMENT_CONSOLE_CONTEXT,
+                ApplicationsPlugin.MESSAGE_RESOURCES_KEY));
+    }
 
-	void initMainMenu() throws Exception {
-		MenuTree tree = NavigationManager.getMenuTree(CoreMenuTree.MENU_ITEM_MENU_TREE);
+    void initMainMenu() throws Exception {
+        MenuTree tree = NavigationManager.getMenuTree(CoreMenuTree.MENU_ITEM_MENU_TREE);
 
-		tree.addMenuItem("resources", new MenuItem("userApplicationShortcuts",
-						MESSAGE_RESOURCES_KEY,
-						"/showUserApplicationShortcuts.do",
-						300,
-						true,
-						null,
-						SessionInfo.USER_CONSOLE_CONTEXT,
-                        APPLICATION_SHORTCUT_RESOURCE_TYPE,
-                        new Permission[] { PolicyConstants.PERM_PERSONAL_CREATE_EDIT_AND_DELETE },
-                        APPLICATION_SHORTCUT_RESOURCE_TYPE));
+        tree.addMenuItem("resources", new MenuItem("userApplicationShortcuts",
+                MESSAGE_RESOURCES_KEY,
+                "/showUserApplicationShortcuts.do",
+                300,
+                true,
+                null,
+                SessionInfo.USER_CONSOLE_CONTEXT,
+                APPLICATION_SHORTCUT_RESOURCE_TYPE,
+                new Permission[]{PolicyConstants.PERM_PERSONAL_CREATE_EDIT_AND_DELETE},
+                APPLICATION_SHORTCUT_RESOURCE_TYPE));
 
-		tree.addMenuItem("globalResources", new MenuItem("applicationShortcuts",
-						MESSAGE_RESOURCES_KEY,
-						"/showApplicationShortcuts.do",
-						300,
-						true,
-						null,
-						SessionInfo.MANAGEMENT_CONSOLE_CONTEXT,
-						APPLICATION_SHORTCUT_RESOURCE_TYPE,
-						new Permission[] { PolicyConstants.PERM_CREATE_EDIT_AND_ASSIGN,
-							PolicyConstants.PERM_EDIT_AND_ASSIGN,
-							PolicyConstants.PERM_DELETE,
-							PolicyConstants.PERM_ASSIGN }) {
-			public boolean isAvailable(int checkNavigationContext, SessionInfo info, HttpServletRequest request) {
-				boolean available = super.isAvailable(checkNavigationContext, info, request);
-				if (available) {
-					try {
+        tree.addMenuItem("globalResources", new MenuItem("applicationShortcuts",
+                MESSAGE_RESOURCES_KEY,
+                "/showApplicationShortcuts.do",
+                300,
+                true,
+                null,
+                SessionInfo.MANAGEMENT_CONSOLE_CONTEXT,
+                APPLICATION_SHORTCUT_RESOURCE_TYPE,
+                new Permission[]{PolicyConstants.PERM_CREATE_EDIT_AND_ASSIGN,
+                    PolicyConstants.PERM_EDIT_AND_ASSIGN,
+                    PolicyConstants.PERM_DELETE,
+                    PolicyConstants.PERM_ASSIGN}) {
+                    public boolean isAvailable(int checkNavigationContext, SessionInfo info, HttpServletRequest request) {
+                        boolean available = super.isAvailable(checkNavigationContext, info, request);
+                        if (available) {
+                            try {
 
-						PolicyUtil.checkPermissions(APPLICATION_SHORTCUT_RESOURCE_TYPE,
-							new Permission[] { PolicyConstants.PERM_CREATE_EDIT_AND_ASSIGN,
-								PolicyConstants.PERM_EDIT_AND_ASSIGN,
-								PolicyConstants.PERM_DELETE,
-								PolicyConstants.PERM_ASSIGN },
-							request);
-						available = true;
-					} catch (Exception e1) {
-						available = false;
-					}
-				}
-				return available;
-			}
-		});
-	}
+                                PolicyUtil.checkPermissions(APPLICATION_SHORTCUT_RESOURCE_TYPE,
+                                        new Permission[]{PolicyConstants.PERM_CREATE_EDIT_AND_ASSIGN,
+                                            PolicyConstants.PERM_EDIT_AND_ASSIGN,
+                                            PolicyConstants.PERM_DELETE,
+                                            PolicyConstants.PERM_ASSIGN},
+                                        request);
+                                available = true;
+                            } catch (Exception e1) {
+                                available = false;
+                            }
+                        }
+                        return available;
+                    }
+                });
+    }
 
-	void initPageTasks() throws Exception {
-		MenuTree tree = NavigationManager.getMenuTree(PageTaskMenuTree.PAGE_TASK_MENU_TREE);
+    void initPageTasks() throws Exception {
+        MenuTree tree = NavigationManager.getMenuTree(PageTaskMenuTree.PAGE_TASK_MENU_TREE);
 
-		tree.addMenuItem(null, new MenuItem("showApplicationShortcuts",
-						null,
-						null,
-						100,
-						false,
-						SessionInfo.MANAGEMENT_CONSOLE_CONTEXT));
-		tree.addMenuItem("showApplicationShortcuts", new MenuItem("createApplicationShortcut",
-						ApplicationsPlugin.MESSAGE_RESOURCES_KEY,
-						"/applicationShortcutApplication.do",
-						100,
-						true,
-						"_self",
-						SessionInfo.MANAGEMENT_CONSOLE_CONTEXT,
-						APPLICATION_SHORTCUT_RESOURCE_TYPE,
-						new Permission[] { PolicyConstants.PERM_CREATE_EDIT_AND_ASSIGN }));
-        
+        tree.addMenuItem(null, new MenuItem("showApplicationShortcuts",
+                null,
+                null,
+                100,
+                false,
+                SessionInfo.MANAGEMENT_CONSOLE_CONTEXT));
+        tree.addMenuItem("showApplicationShortcuts", new MenuItem("createApplicationShortcut",
+                ApplicationsPlugin.MESSAGE_RESOURCES_KEY,
+                "/applicationShortcutApplication.do",
+                100,
+                true,
+                "_self",
+                SessionInfo.MANAGEMENT_CONSOLE_CONTEXT,
+                APPLICATION_SHORTCUT_RESOURCE_TYPE,
+                new Permission[]{PolicyConstants.PERM_CREATE_EDIT_AND_ASSIGN}));
+
         // userApplicationShorctuts
         tree.addMenuItem(null, new MenuItem("showUserApplicationShortcuts", null, null, 100, false, SessionInfo.USER_CONSOLE_CONTEXT));
         tree.addMenuItem("showUserApplicationShortcuts", new MenuItem("createPersonalApplicationShortcut",
-                        ApplicationsPlugin.MESSAGE_RESOURCES_KEY,
-                        "/applicationShortcutApplication.do",
-                        100,
-                        true,
-                        "_self",
-                        SessionInfo.USER_CONSOLE_CONTEXT,
-                        APPLICATION_SHORTCUT_RESOURCE_TYPE,
-                        new Permission[] { PolicyConstants.PERM_PERSONAL_CREATE_EDIT_AND_DELETE }));
-	}
+                ApplicationsPlugin.MESSAGE_RESOURCES_KEY,
+                "/applicationShortcutApplication.do",
+                100,
+                true,
+                "_self",
+                SessionInfo.USER_CONSOLE_CONTEXT,
+                APPLICATION_SHORTCUT_RESOURCE_TYPE,
+                new Permission[]{PolicyConstants.PERM_PERSONAL_CREATE_EDIT_AND_DELETE}));
+    }
 
-	public void coreEvent(CoreEvent evt) {
-		if (evt.getId() == CoreEventConstants.REMOVING_EXTENSION) {
-			ExtensionBundle bundle = (ExtensionBundle) evt.getParameter();
-			for (Iterator itr = bundle.iterator(); itr.hasNext();) {
-				ExtensionDescriptor app = (ExtensionDescriptor) itr.next();
-				try {
-					ApplicationShortcutDatabaseFactory.getInstance().removeApplicationShortcuts(app.getId());
-				} catch (Exception e) {
-					log.error("Failed to remove application shortcuts for removed extension " + bundle.getId());
-				}
-			}
-		}
+    public void coreEvent(CoreEvent evt) {
+        if (evt.getId() == CoreEventConstants.REMOVING_EXTENSION) {
+            ExtensionBundle bundle = (ExtensionBundle) evt.getParameter();
+            for (Iterator itr = bundle.iterator(); itr.hasNext();) {
+                ExtensionDescriptor app = (ExtensionDescriptor) itr.next();
+                try {
+                    ApplicationShortcutDatabaseFactory.getInstance().removeApplicationShortcuts(app.getId());
+                } catch (Exception e) {
+                    log.error("Failed to remove application shortcuts for removed extension " + bundle.getId());
+                }
+            }
+        }
 
-	}
-    
+    }
+
     public void stopPlugin() throws ExtensionException {
         super.stopPlugin();
         try {
@@ -325,7 +323,7 @@ public class ApplicationsPlugin extends DefaultPlugin implements CoreListener {
     }
 
     private void removeAgentService() {
-         DefaultAgentManager.getInstance().unregisterService(ApplicationService.class);
+        DefaultAgentManager.getInstance().unregisterService(ApplicationService.class);
     }
 
     private void stopDatabase() throws Exception {

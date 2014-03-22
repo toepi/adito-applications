@@ -3,7 +3,7 @@
 	name="Adito Applications" license="GPL"
 	productURL="http://localhost"
 	order="200"
-	depends="adito-community-tunnels,adito-agent">
+	depends="adito-tunnels,adito-agent">
 	<description>
 		This extension adds the 'Applications' feature to Adito.
 		By itself, this extension does not do much, you must download
